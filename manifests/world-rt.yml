@@ -1,0 +1,28 @@
+---
+apiVersion: policy.linkerd.io/v1beta1
+kind: HTTPRoute
+metadata:
+  name: hello
+spec:
+  parentRefs:
+    - name: hokay-server
+      kind: Server
+      group: policy.linkerd.io
+  rules:
+    - matches:
+      - path:
+          value: "/world"
+---
+apiVersion: policy.linkerd.io/v1alpha1
+kind: AuthorizationPolicy
+metadata:
+  name: hello-policy
+spec:
+  targetRef:
+    group: policy.linkerd.io
+    kind: HTTPRoute
+    name: hello
+  requiredAuthenticationRefs:
+    - name: blessed-only
+      kind: MeshTLSAuthentication
+      group: policy.linkerd.io

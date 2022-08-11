@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    config.linkerd.io/proxy-log-level: linkerd=debug,info
+  labels:
+    app: hokay
+  name: hokay
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hokay
+  template:
+    metadata:
+      annotations:
+        config.linkerd.io/proxy-log-level: linkerd=debug,info
+        linkerd.io/inject: enabled
+      labels:
+        app: hokay
+    spec:
+      containers:
+      - image: ghcr.io/olix0r/hokay:latest
+        name: hokay
+        ports:
+        - containerPort: 8080
+          name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hokay
+spec:
+  ports:
+  - name: http
+    port: 8080
+  selector:
+    app: hokay
+---
+apiVersion: policy.linkerd.io/v1beta1
+kind: Server
+metadata:
+  name: hokay-server
+spec:
+  podSelector:
+    matchLabels:
+      app: hokay
+  port: http

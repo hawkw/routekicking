@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: curl-authz
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: curl-authz
+  labels:
+    app: curl-authz
+  annotations:
+    config.linkerd.io/proxy-log-level: linkerd=debug,info
+    linkerd.io/inject: enabled
+spec:
+  serviceAccountName: curl-authz
+  containers:
+    - name: curl
+      image: docker.io/curlimages/curl:latest
+      command: ["/bin/sh", "-c"]
+      args: ["while true; do :; done"]

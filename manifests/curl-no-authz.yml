@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: curl-no-authz
+  labels:
+    app: curl-no-authz
+  annotations:
+    config.linkerd.io/proxy-log-level: linkerd=debug,info
+    linkerd.io/inject: enabled
+spec:
+  containers:
+    - name: curl
+      image: docker.io/curlimages/curl:latest
+      command: ["/bin/sh", "-c"]
+      args: ["while true; do :; done"]

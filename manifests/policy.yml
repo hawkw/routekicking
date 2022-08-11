@@ -1,0 +1,24 @@
+---
+apiVersion: policy.linkerd.io/v1beta1
+kind: Server
+metadata:
+  name: hokay-server
+spec:
+  podSelector:
+    matchLabels:
+      app: hokay
+  port: http
+---
+apiVersion: policy.linkerd.io/v1alpha1
+kind: MeshTLSAuthentication
+metadata:
+  name: all-authenticated
+spec:
+  identities: ["*"]
+---
+apiVersion: policy.linkerd.io/v1alpha1
+kind: MeshTLSAuthentication
+metadata:
+  name: blessed-only
+spec:
+  identities: ["curl-authz.default.serviceaccount.identity.linkerd.cluster.local"]
