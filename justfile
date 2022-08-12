@@ -7,7 +7,7 @@ export INSTALLROOT := _rootdir + "/.linkerd2"
 _l5d := INSTALLROOT + "/bin/linkerd"
 _cat := ```
     if command -v bat >/dev/null 2>&1; then
-        echo "bat"
+        echo "bat --pager=never "
     else
         echo "cat"
     fi
