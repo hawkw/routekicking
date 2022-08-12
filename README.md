@@ -183,6 +183,31 @@ docs etc.
    :; kubectl -n booksapp port-forward svc/webapp 7000 &
    open http://localhost:700
    ```
-   
+
    this is because the existing authorization policy only authorizes the `GET
    /authors.json` and `GET /authors/:id.json` routes.
+
+   apply the HTTPRoute and AuthorizationPolicy that will authorize *only* the
+   `webapp` ServiceAccount to `DELETE` and `PUT` to `/authors/:id.json` and
+   `POST /authors.json`:
+
+   ```shell
+   :; just apply booksapp/authors-modify.yml
+   ```
+
+   ```shell
+   :; just linkerd authz -n booksapp deploy/authors
+   ROUTE                 SERVER          AUTHORIZATION_POLICY   SERVER_AUTHORIZATION
+   authors-probe-route   authors-server  authors-probe-policy
+   authors-modify-route  authors-server  authors-modify-policy
+   authors-get-route     authors-server  authors-get-policy
+   ```
+
+   now, we can create and delete books from the web UI, but no other ServiceAccounts
+   will be authorized to create, delete, or modify authors.
+
+4. **now you try!**
+
+   we've now restricted which ServiceAccounts are permitted to access various
+   routes on the `authors` service. next, we might similarly want to restrict
+   access to the `books` service.
