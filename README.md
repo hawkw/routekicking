@@ -1,3 +1,13 @@
+# linkerd route policy testing/demos
+
+## requirements
+
+to run these demos, you will need:
+- `just`, a task runner: https://just.systems/
+- a Kubernetes cluster:
+  + the justfile will automatically set up a `k3d` cluster if you have `k3d` on your machine: https://k3d.io/v5.4.4/
+  + or, configure your own kubernetes cluster some other way
+  
 ## hokay demo
 
 0. **setup**
