@@ -1,0 +1,12 @@
+---
+apiVersion: policy.linkerd.io/v1beta1
+kind: Server
+metadata:
+  name: authors-server
+  namespace: booksapp
+spec:
+  podSelector:
+    matchLabels:
+      app: authors
+      project: booksapp
+  port: service
