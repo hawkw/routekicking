@@ -5,7 +5,7 @@ set -euo pipefail
 bindir=$( cd "${0%/*}" && pwd )
 rootdir=$( cd "$bindir"/.. && pwd )
 export INSTALLROOT="$rootdir/.linkerd2"
-export LINKERD2_VERSION="${LINKERD2_VERSION:-edge-22.8.1}"
+export LINKERD2_VERSION="${LINKERD2_VERSION:-edge-22.8.2}"
 l5d="${INSTALLROOT}/bin/linkerd"
 mkdir -p "$INSTALLROOT"
 

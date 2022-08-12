@@ -5,7 +5,7 @@ set -x
 
 bindir=$( cd "${0%/*}" && pwd )
 
-cluster="l5d-route-test"
+cluster="${CLUSTER:-routekicking}"
 
 # make sure a k3d cluster exists
 if ! k3d cluster list "$cluster" >/dev/null 2>/dev/null; then
