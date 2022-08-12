@@ -12,7 +12,11 @@ spec:
   rules:
     - matches:
       - path:
-          value: "/authors"
+          value: "/authors.json"
+        method: GET
+    - matches:
+      - path:
+          value: "/authors/"
           type: "PathPrefix"
         method: GET
 ---
@@ -23,8 +27,7 @@ metadata:
   namespace: booksapp
 spec:
   identities:
-    - "webapp.booksapp.serviceaccount.identity.linkerd.cluster.local"
-    - "books.booksapp.serviceaccount.identity.linkerd.cluster.local"
+    - "default.booksapp.serviceaccount.identity.linkerd.cluster.local"
 ---
 apiVersion: policy.linkerd.io/v1alpha1
 kind: AuthorizationPolicy

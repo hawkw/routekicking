@@ -132,7 +132,6 @@ docs etc.
 
    output should look sorta like this
    ```shell
-   /home/eliza/Code/routekicking/.linkerd2/bin/linkerd --context k3d-routekicking viz authz deploy/authors -n booksapp
    ROUTE    SERVER          AUTHORIZATION_POLICY  SERVER_AUTHORIZATION  SUCCESS     RPS  LATENCY_P50  LATENCY_P95  LATENCY_P99
    probe    authors-server                                              100.00%  0.1rps          1ms          1ms          1ms
    default  authors-server  [UNAUTHORIZED]        [UNAUTHORIZED]              -  9.8rps            -            -            -
@@ -158,6 +157,14 @@ docs etc.
    :; just apply booksapp/authors-probe.yml
    ```
 
+   we now have two AuthorizationPolicy resources defined for `authors`:
+   ```shell
+   :; just linkerd authz -n booksapp deploy/authors
+   ROUTE                SERVER          AUTHORIZATION_POLICY   SERVER_AUTHORIZATION
+   authors-get-route    authors-server  authors-get-policy
+   authors-probe-route  authors-server  authors-probe-policy
+   ```
+
    note that requests from the `books` service to `authors` are still
    succeeding:
 
@@ -167,3 +174,15 @@ docs etc.
    NAME    MESHED   SUCCESS      RPS   LATENCY_P50   LATENCY_P95   LATENCY_P99   TCP_CONN
    books      1/1   100.00%   0.4rps           1ms           1ms           1ms          6
    ```
+
+3. **create additional policy for mutating `authors`**
+
+   however, if we port forward to the web UI, we'll notice that we can no longer
+   add or delete authors:
+   ```shell
+   :; kubectl -n booksapp port-forward svc/webapp 7000 &
+   open http://localhost:700
+   ```
+   
+   this is because the existing authorization policy only authorizes the `GET
+   /authors.json` and `GET /authors/:id.json` routes.

@@ -22,9 +22,6 @@ metadata:
   namespace: booksapp
 spec:
   networks:
-  # probes seem to be coming from this network in k3d on my machine.
-  # your mileage may vary...
-  - cidr: 10.0.0.0/8
   - cidr: 0.0.0.0/0
   - cidr: ::/0
 ---

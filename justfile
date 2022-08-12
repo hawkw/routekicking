@@ -32,12 +32,11 @@ apply manifest *args='':
 
 # run a Linkerd command
 linkerd *args: _install-cli
-    {{ _l5d }} {{ args }}
+    @{{ _l5d }} {{ args }}
 
 # run a kubectl command
 kubectl *args:
-    {{ _kubectl }} {{ args }}
-
+    @{{ _kubectl }} {{ args }}
 
 # set up a k3d cluster
 k3d-create:
@@ -79,9 +78,7 @@ install-viz: _install-cli
 
 install-booksapp:
     {{ _kubectl }} create ns booksapp
-    curl --proto '=https' --tlsv1.2 -sSfL https://run.linkerd.io/booksapp.yml \
-        | {{ _l5d }} inject - \
-        | {{ _kubectl }} -n booksapp apply -f -
+    {{ _l5d }} inject booksapp/booksapp.yml | {{ _kubectl }} -n booksapp apply -f -
     {{ _kubectl }} -n booksapp rollout status deploy/webapp
     {{ _kubectl }} -n booksapp get po
 
