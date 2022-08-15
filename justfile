@@ -48,7 +48,7 @@ k3d-create:
     if ! k3d cluster list {{ cluster }} >/dev/null 2>/dev/null; then
         k3d cluster create {{ cluster }}
     else
-        k3d kubeconfig merge "$cluster"
+        k3d kubeconfig merge {{ cluster }}
     fi
 
 # tear down the k3d cluster
